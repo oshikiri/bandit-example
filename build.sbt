@@ -21,3 +21,10 @@ SettingKey[Unit]("scalafmtGenerateConfig") :=
       |# Your configuration here
       """.stripMargin.getBytes("UTF-8")
   )
+scalacOptions ++= (
+  "-Ywarn-unused" ::
+  "-Ywarn-unused-import" ::
+  "-unchecked" ::
+  "-Xlint" ::
+  Nil
+)

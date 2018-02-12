@@ -4,7 +4,7 @@ lazy val root = (project in file("."))
   .settings(
     inThisBuild(List(
       organization := "org.oshikiri",
-      scalaVersion := "2.11.11",
+      scalaVersion := "2.11.12", // required by https://github.com/jupyter-scala/jupyter-scala
       version      := "0.1.0-SNAPSHOT"
     )),
     name := "bandit-example",

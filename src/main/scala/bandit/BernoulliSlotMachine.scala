@@ -5,9 +5,9 @@ import breeze.stats.distributions._
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm._
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm.Types._
 
-class BernoulliSlotMachine(override val stateWithExpectedRewards: Map[SimpleBanditArm, Reward],
+class BernoulliSlotMachine(override val armsWithExpectedRewards: Map[SimpleBanditArm, Reward],
                            override val seed: Int)
-    extends SimpleSlotMachine(stateWithExpectedRewards, seed) {
+    extends SimpleSlotMachine(armsWithExpectedRewards, seed) {
   import BetaBernoulliTS.BetaBernoulliBanditArm
 
   def drawReward(arm: SimpleBanditArm,

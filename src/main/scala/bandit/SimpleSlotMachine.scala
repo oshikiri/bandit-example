@@ -5,7 +5,7 @@ import org.oshikiri.example.bandit.SimpleBanditAlgorithm.SimpleBanditArm
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm.Types._
 
 // TODO: 途中で腕の本数が変わるケース?
-abstract class SimpleSlotMachine(val stateWithExpectedRewards: Map[SimpleBanditArm, Reward],
+abstract class SimpleSlotMachine(val armsWithExpectedRewards: Map[SimpleBanditArm, Reward],
                                  val seed: Int) {
   implicit val randBasis: RandBasis = RandBasis.withSeed(seed)
 
@@ -14,7 +14,7 @@ abstract class SimpleSlotMachine(val stateWithExpectedRewards: Map[SimpleBanditA
   ): Reward
 
   def pullArm(armId: ArmId): Reward = {
-    stateWithExpectedRewards
+    armsWithExpectedRewards
       .filter {
         case (arm: SimpleBanditArm, expectedReward: Reward) =>
           arm.armId == armId

@@ -7,10 +7,10 @@ import breeze.stats.distributions._
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm._
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm.Types._
 
-class LognormalSlotMachine(override val stateWithExpectedRewards: Map[SimpleBanditArm, Reward],
+class LognormalSlotMachine(override val armsWithExpectedRewards: Map[SimpleBanditArm, Reward],
                            override val seed: Int,
                            val trueVarianceOfLogRewards: Double)
-    extends SimpleSlotMachine(stateWithExpectedRewards, seed) {
+    extends SimpleSlotMachine(armsWithExpectedRewards, seed) {
   import LognormalTS.LognormalBanditArm
 
   def drawReward(arm: SimpleBanditArm,

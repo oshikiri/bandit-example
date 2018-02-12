@@ -1,9 +1,8 @@
 package org.oshikiri.example.bandit
 
-import math.{exp, log, pow, sqrt}
+import math.{log, pow, sqrt}
 
 import scala.collection.immutable.Seq
-import breeze.stats.distributions._
 
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm._
 import org.oshikiri.example.bandit.SimpleBanditAlgorithm.Types._
@@ -14,13 +13,17 @@ class LognormalTS extends SimpleBanditAlgorithm {
   def estimatedRewards(state: LognormalBanditState): Map[ArmId, Reward] =
     sampleTheta(state)
 
-  def updateState(state: LognormalBanditState, choosedArmId: ArmId, reward: Reward) =
+  def updateState(state: LognormalBanditState,
+                  choosedArmId: ArmId,
+                  reward: Reward) =
     LognormalBanditState(
       nTrials = state.nTrials + 1,
       arms = updateArms(state.arms, choosedArmId, reward)
     )
 
-  private def updateArms(arms: Seq[LognormalBanditArm], choosedArmId: ArmId, reward: Reward) =
+  private def updateArms(arms: Seq[LognormalBanditArm],
+                         choosedArmId: ArmId,
+                         reward: Reward) =
     arms.map {
       case arm if arm.armId == choosedArmId =>
         val logReward = log(reward)
@@ -99,29 +102,5 @@ object LognormalTS extends SimpleBanditAlgorithm {
     lazy val meanSquaredLogRewards = sumOfSquaredLogRewards / nChoosed.toDouble
     lazy val squaredMeanLogRewards = math.pow(meanLogRewards, 2)
     lazy val sampleVarianceOfLogRewards = meanSquaredLogRewards - squaredMeanLogRewards
-  }
-}
-
-class LognormalSlotMachine(override val stateWithExpectedRewards: Map[SimpleBanditArm, Reward],
-                           override val seed: Int,
-                           val trueVarianceOfLogRewards: Double)
-    extends SimpleSlotMachine(stateWithExpectedRewards, seed) {
-  import LognormalTS.LognormalBanditArm
-
-  def drawReward(arm: SimpleBanditArm,
-                 expectedReward: Reward)(implicit randBasis: RandBasis): Reward = arm match {
-    case lArm: LognormalBanditArm =>
-      drawReward(lArm, expectedReward, trueVarianceOfLogRewards)
-    case other =>
-      sys.error(s"Invalid type of arm: s{other}")
-  }
-
-  private def drawReward(arm: LognormalBanditArm, expectedReward: Reward, trueVarianceOfLn: Double)(
-    implicit randBasis: RandBasis
-  ): Reward = {
-    val mu = log(expectedReward) - trueVarianceOfLn / 2.0
-    val sigma = sqrt(trueVarianceOfLn)
-    val distribution = new LogNormal(mu, sigma)(randBasis)
-    distribution.draw()
   }
 }

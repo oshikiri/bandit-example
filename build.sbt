@@ -13,3 +13,11 @@ lazy val root = (project in file("."))
       "org.scalanlp" %% "breeze-natives" % "0.13.2"
     )
   )
+
+SettingKey[Unit]("scalafmtGenerateConfig") :=
+  IO.write( // writes to file once when build is loaded
+    file(".scalafmt.conf"),
+    """style = IntelliJ
+      |# Your configuration here
+      """.stripMargin.getBytes("UTF-8")
+  )

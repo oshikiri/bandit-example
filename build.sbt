@@ -14,13 +14,6 @@ lazy val root = (project in file("."))
     )
   )
 
-SettingKey[Unit]("scalafmtGenerateConfig") :=
-  IO.write( // writes to file once when build is loaded
-    file(".scalafmt.conf"),
-    """style = IntelliJ
-      |# Your configuration here
-      """.stripMargin.getBytes("UTF-8")
-  )
 scalacOptions ++= (
   "-Ywarn-unused" ::
   "-Ywarn-unused-import" ::
@@ -28,3 +21,5 @@ scalacOptions ++= (
   "-Xlint" ::
   Nil
 )
+
+scalafmtConfig in ThisBuild := Some(file(".scalafmt.conf"))

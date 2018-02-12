@@ -11,17 +11,13 @@ class BetaBernoulliTS extends SimpleBanditAlgorithm {
   def estimatedRewards(state: BetaBernoulliBanditState): Map[ArmId, Reward] =
     sampleTheta(state)
 
-  def updateState(state: BetaBernoulliBanditState,
-                  choosedArmId: ArmId,
-                  reward: Reward) =
+  def updateState(state: BetaBernoulliBanditState, choosedArmId: ArmId, reward: Reward) =
     BetaBernoulliBanditState(
       nTrials = state.nTrials + 1,
       arms = updateArms(state.arms, choosedArmId, reward)
     )
 
-  private def updateArms(arms: Seq[BetaBernoulliBanditArm],
-                         choosedArmId: ArmId,
-                         reward: Reward) =
+  private def updateArms(arms: Seq[BetaBernoulliBanditArm], choosedArmId: ArmId, reward: Reward) =
     arms.map {
       case arm if arm.armId == choosedArmId =>
         arm.copy(
@@ -49,8 +45,7 @@ object BetaBernoulliTS extends SimpleBanditAlgorithm {
     nTrials = 0
   )
 
-  case class BetaBernoulliBanditState(arms: Seq[BetaBernoulliBanditArm],
-                                      nTrials: Long)
+  case class BetaBernoulliBanditState(arms: Seq[BetaBernoulliBanditArm], nTrials: Long)
       extends SimpleBanditState
 
   case class BetaBernoulliBanditArm(armId: ArmId,

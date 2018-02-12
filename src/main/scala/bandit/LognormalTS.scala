@@ -13,17 +13,13 @@ class LognormalTS extends SimpleBanditAlgorithm {
   def estimatedRewards(state: LognormalBanditState): Map[ArmId, Reward] =
     sampleTheta(state)
 
-  def updateState(state: LognormalBanditState,
-                  choosedArmId: ArmId,
-                  reward: Reward) =
+  def updateState(state: LognormalBanditState, choosedArmId: ArmId, reward: Reward) =
     LognormalBanditState(
       nTrials = state.nTrials + 1,
       arms = updateArms(state.arms, choosedArmId, reward)
     )
 
-  private def updateArms(arms: Seq[LognormalBanditArm],
-                         choosedArmId: ArmId,
-                         reward: Reward) =
+  private def updateArms(arms: Seq[LognormalBanditArm], choosedArmId: ArmId, reward: Reward) =
     arms.map {
       case arm if arm.armId == choosedArmId =>
         val logReward = log(reward)

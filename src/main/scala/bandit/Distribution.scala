@@ -1,7 +1,7 @@
 package org.oshikiri.example.bandit
 
-import scala.math.{ pow, exp }
-import breeze.stats.distributions.{ Beta, LogNormal }
+import scala.math.{exp, pow}
+import breeze.stats.distributions.{Beta, LogNormal}
 
 abstract class ProbabilityDistribution {
   val mean: Double

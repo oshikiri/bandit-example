@@ -1,6 +1,5 @@
 package org.oshikiri.example.bandit
 
-
 abstract class SimpleBanditAlgorithm {
   import SimpleBanditAlgorithm._
   import SimpleBanditAlgorithm.Types._

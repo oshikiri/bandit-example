@@ -101,7 +101,8 @@ object LognormalTS extends SimpleBanditAlgorithm {
   ) extends SimpleBanditArm {
     lazy val meanLogRewards = sumOfLogRewards / nChoosed.toDouble
     lazy val meanSquaredLogRewards = sumOfSquaredLogRewards / nChoosed.toDouble
-    lazy val sampleVarianceOfLogRewards = meanSquaredLogRewards - math.pow(meanLogRewards, 2)
+    lazy val squaredMeanLogRewards = math.pow(meanLogRewards, 2)
+    lazy val sampleVarianceOfLogRewards = meanSquaredLogRewards - squaredMeanLogRewards
   }
 }
 
